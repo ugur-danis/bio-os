@@ -22,7 +22,6 @@ const BootScreen = ({ onComplete }) => {
         currentIndex++;
       } else {
         clearInterval(interval);
-        // Tüm satırlar bittikten kısa bir süre sonra masaüstüne geç
         setTimeout(() => {
           onComplete();
         }, 1200);
