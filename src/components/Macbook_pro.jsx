@@ -266,6 +266,7 @@ export default function Macbook(props) {
 
       <Html
         transform
+        occlude
         wrapperClass="htmlScreen"
         distanceFactor={12} // Increased to scale up the UI
         zIndexRange={[100, 0]}
