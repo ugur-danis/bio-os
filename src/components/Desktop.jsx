@@ -1,7 +1,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment, ContactShadows } from "@react-three/drei";
-import Macbook from "../components/Macbook_pro"; // Import the new model
+import Macbook from "../components/Macbook_pro";
 
 const Desktop = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -49,38 +49,31 @@ const Desktop = () => {
       {/* 3D Environment */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [-7.4, 7.5, 18], fov: 45 }}>
-          {/* Preset environment lighting for realistic metal reflections */}
           <Environment preset="city" />
           <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 5]} intensity={1.5} castShadow />
 
           <Suspense fallback={null}>
-            {/* The Macbook model */}
             <Macbook
               position={[0, -4, 0]}
               rotation={[0, -Math.PI / 8, 0]}
               scale={0.5}
             />
 
-            {/* Ground shadow for realism */}
             <ContactShadows
-              position={[0, -1.05, 0]}
+              position={[0, -4.05, 0]}
               opacity={0.6}
               scale={5}
               blur={2.5}
               far={2}
+              color="#000000"
             />
           </Suspense>
 
           <OrbitControls
             enableZoom={true}
-            onChange={(e) => {
-              // Kameranın o anki x, y ve z koordinatlarını alıyoruz
-              const { x, y, z } = e.target.object.position;
-              // Okunabilirliği artırmak için virgülden sonra 2 basamak gösteriyoruz
-              console.log(
-                `[Camera Position]: [${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}]`,
-              );
-            }}
+            minPolarAngle={Math.PI / 4}
+            maxPolarAngle={Math.PI / 2.1}
           />
         </Canvas>
       </div>
