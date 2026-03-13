@@ -341,7 +341,7 @@ export default function Macbook(props) {
               scale={[1.13, 1.16, 1]}
             >
               {appState === "closed" || appState === "opening" ? (
-                <div className="w-[1024px] h-[640px] bg-black"></div>
+                <div className="w-5xl h-160 bg-black"></div>
               ) : appState === "booting" ? (
                 <BootScreen onComplete={() => setAppState("desktop")} />
               ) : (
