@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next"; // Imported the translation hook
 
 const PortfolioUI = () => {
-  // State to track the currently open application (null means we are on the desktop)
+  // Initialize the translation hook
+  const { t, i18n } = useTranslation();
+
+  // State to track the currently open application
   const [activeApp, setActiveApp] = useState(null);
 
   // Real-time clock state for the taskbar
@@ -15,12 +19,38 @@ const PortfolioUI = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Desktop applications data configuration
+  // Language toggle handler
+  const toggleLanguage = () => {
+    const nextLang = i18n.language === "tr" ? "en" : "tr";
+    i18n.changeLanguage(nextLang);
+  };
+
+  // Desktop applications configuration (Now using dynamic translations)
   const apps = [
-    { id: "about", label: "Hakkımda", icon: "👤", color: "bg-blue-500" },
-    { id: "skills", label: "Yetenekler", icon: "⚡", color: "bg-yellow-500" },
-    { id: "projects", label: "Projeler", icon: "📁", color: "bg-green-500" },
-    { id: "aimtest", label: "Aim Test", icon: "🎯", color: "bg-red-500" },
+    {
+      id: "about",
+      label: t("desktop.about"),
+      icon: "👤",
+      color: "bg-blue-500",
+    },
+    {
+      id: "skills",
+      label: t("desktop.skills"),
+      icon: "⚡",
+      color: "bg-yellow-500",
+    },
+    {
+      id: "projects",
+      label: t("desktop.projects"),
+      icon: "📁",
+      color: "bg-green-500",
+    },
+    {
+      id: "aimtest",
+      label: t("desktop.aimtest"),
+      icon: "🎯",
+      color: "bg-red-500",
+    },
   ];
 
   return (
@@ -84,12 +114,10 @@ const PortfolioUI = () => {
               {activeApp === "about" && (
                 <div>
                   <h1 className="text-3xl font-bold mb-4">
-                    BioOS Sistemine Hoş Geldiniz
+                    {t("about.title")}
                   </h1>
                   <p className="text-lg text-slate-600 mb-6">
-                    Ben modern web teknolojileri ve sistem mimarileri üzerine
-                    uzmanlaşmış bir Full Stack Geliştiriciyim. Bu masaüstü
-                    deneyimi, projelerimi sergilemek için tasarlandı.
+                    {t("about.description")}
                   </p>
                 </div>
               )}
@@ -98,23 +126,23 @@ const PortfolioUI = () => {
               {activeApp === "skills" && (
                 <div>
                   <h2 className="text-2xl font-bold mb-4">
-                    Sistem Donanımı (Yetenekler)
+                    {t("skills.title")}
                   </h2>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white p-4 rounded border shadow-sm">
                       <h3 className="font-bold text-blue-600 mb-2">
-                        Backend Çekirdeği
+                        {t("skills.backend_title")}
                       </h3>
                       <p className="text-sm text-slate-600">
-                        C#, .NET Core, SignalR, Microservices
+                        {t("skills.backend_desc")}
                       </p>
                     </div>
                     <div className="bg-white p-4 rounded border shadow-sm">
                       <h3 className="font-bold text-blue-600 mb-2">
-                        Arayüz Modülleri
+                        {t("skills.frontend_title")}
                       </h3>
                       <p className="text-sm text-slate-600">
-                        React, Three.js, Tailwind CSS
+                        {t("skills.frontend_desc")}
                       </p>
                     </div>
                   </div>
@@ -125,22 +153,22 @@ const PortfolioUI = () => {
               {activeApp === "projects" && (
                 <div>
                   <h2 className="text-2xl font-bold mb-4">
-                    Çalıştırılan Projeler
+                    {t("projects.title")}
                   </h2>
                   <div className="bg-white p-4 rounded border shadow-sm mb-4">
-                    <h3 className="font-bold text-slate-800">Mülküm (Nexus)</h3>
+                    <h3 className="font-bold text-slate-800">
+                      {t("projects.p1_title")}
+                    </h3>
                     <p className="text-sm text-slate-600 mt-1">
-                      Yapay zeka destekli gayrimenkul ve araç takip/varlık
-                      yönetim platformu.
+                      {t("projects.p1_desc")}
                     </p>
                   </div>
                   <div className="bg-white p-4 rounded border shadow-sm">
                     <h3 className="font-bold text-slate-800">
-                      SignalR Telemetry Hub
+                      {t("projects.p2_title")}
                     </h3>
                     <p className="text-sm text-slate-600 mt-1">
-                      Prometheus benzeri pull-model mimarisiyle çalışan gerçek
-                      zamanlı veri toplama sistemi.
+                      {t("projects.p2_desc")}
                     </p>
                   </div>
                 </div>
@@ -150,9 +178,9 @@ const PortfolioUI = () => {
               {activeApp === "aimtest" && (
                 <div className="w-full h-full flex flex-col items-center justify-center">
                   <h2 className="text-2xl font-bold mb-2">
-                    CS: Aim Antrenmanı
+                    {t("aimtest.title")}
                   </h2>
-                  <p className="text-slate-500 mb-6">Loading assets...</p>
+                  <p className="text-slate-500 mb-6">{t("aimtest.loading")}</p>
                   <div className="w-16 h-16 border-4 border-dashed border-slate-300 rounded-full animate-spin"></div>
                 </div>
               )}
@@ -166,7 +194,7 @@ const PortfolioUI = () => {
         <div className="flex items-center gap-2">
           {/* Start Menu Button equivalent */}
           <button className="px-3 py-1 bg-blue-600 text-white text-sm font-bold rounded hover:bg-blue-500 transition-colors">
-            BioOS
+            {t("taskbar.start")}
           </button>
 
           {/* Currently open app indicator */}
@@ -178,12 +206,21 @@ const PortfolioUI = () => {
           )}
         </div>
 
-        {/* System Clock */}
-        <div className="text-sm text-slate-300 font-mono">
-          {currentTime.toLocaleTimeString("tr-TR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
+        {/* Right side: Language Toggle and Clock */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleLanguage}
+            className="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-xs font-bold text-white transition-colors uppercase"
+            aria-label="Toggle Language"
+          >
+            {i18n.language}
+          </button>
+          <div className="text-sm text-slate-300 font-mono">
+            {currentTime.toLocaleTimeString(
+              i18n.language === "tr" ? "tr-TR" : "en-US",
+              { hour: "2-digit", minute: "2-digit" },
+            )}
+          </div>
         </div>
       </div>
     </div>
