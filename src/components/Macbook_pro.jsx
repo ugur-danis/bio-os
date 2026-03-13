@@ -258,10 +258,6 @@ export default function Macbook(props) {
           material={materials.UBYmHfGRfHbOXyc}
         />
         <mesh
-          geometry={nodes.Object_111.geometry}
-          material={materials.uInNDOueKeBTGQB}
-        />
-        <mesh
           geometry={nodes.Object_117.geometry}
           material={materials.jwuTsnFxKtBUxpK}
         />
@@ -297,6 +293,11 @@ export default function Macbook(props) {
                 material={materials.RyKTMHTpkkwQkvB}
               />{" "}
               {/* Lid Base */}
+              <mesh
+                geometry={nodes.Object_111.geometry}
+                material={materials.uInNDOueKeBTGQB}
+              />
+              {/* Bottom Bezel */}
               <mesh
                 geometry={nodes.Object_113.geometry}
                 material={materials.gOXiFODBFKnUyyU}
