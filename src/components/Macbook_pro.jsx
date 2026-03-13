@@ -1,20 +1,66 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useGLTF, Html } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 import PortfolioUI from "./PortfolioUI";
 import BootScreen from "./BootScreen";
 
 export default function Macbook(props) {
-  // Load the downloaded GLB model
   const { nodes, materials } = useGLTF("/macbook_pro.glb");
-  const [isBooting, setIsBooting] = useState(true);
+
+  // App State: 'closed' -> 'opening' -> 'booting' -> 'desktop'
+  const [appState, setAppState] = useState("closed");
+  const lidRef = useRef();
+
+  // --------------------------------------------------------
+  // ⚙️ HINGE (PIVOT) SETTINGS
+  // If the lid detaches from the keyboard during animation, adjust these values.
+  // Z controls forward/backward, Y controls up/down alignment.
+  // --------------------------------------------------------
+  const pivotZ = -12;
+  const pivotY = 0;
+
+  // --------------------------------------------------------
+  // ⚙️ CLOSED ANGLE SETTING
+  // Find the perfect closing angle between Math.PI / 2 (90 deg) and Math.PI (180 deg).
+  // Tweak this multiplier (e.g., 0.75, 0.82) until the lid perfectly touches the keyboard.
+  // --------------------------------------------------------
+  const closedAngle = Math.PI * 0.62;
+
+  useEffect(() => {
+    // Start the opening animation 1.5 seconds after the component mounts
+    const timer = setTimeout(() => {
+      setAppState("opening");
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useFrame((state, delta) => {
+    if (!lidRef.current) return;
+
+    // Target rotation based on current app state
+    const targetRotation = appState === "closed" ? closedAngle : 0;
+
+    // Smooth spring (Lerp) animation for the lid rotation
+    lidRef.current.rotation.x = THREE.MathUtils.lerp(
+      lidRef.current.rotation.x,
+      targetRotation,
+      delta * 2.5,
+    );
+
+    // Transition to the boot screen when the lid is almost fully open
+    if (appState === "opening" && Math.abs(lidRef.current.rotation.x) < 0.05) {
+      lidRef.current.rotation.x = 0; // Snap to 0 to prevent micro-jitters
+      setAppState("booting");
+    }
+  });
 
   return (
     <group {...props} dispose={null}>
-      {/* This group wraps the entire laptop. 
-        Adjust rotation if the laptop is facing the wrong way. 
-      */}
+      {/* ========================================================= */}
+      {/* PART 1: STATIC BASE (KEYBOARD, PORTS, SPEAKERS)           */}
+      {/* ========================================================= */}
       <group rotation={[Math.PI / 2, 0, 0]}>
-        {/* All the individual parts of the Macbook M3 */}
         <mesh
           geometry={nodes.Object_10.geometry}
           material={materials.AibnXCKcAbewWhH}
@@ -200,10 +246,6 @@ export default function Macbook(props) {
           material={materials.zobIbiekuagXEVU}
         />
         <mesh
-          geometry={nodes.Object_103.geometry}
-          material={materials.RyKTMHTpkkwQkvB}
-        />
-        <mesh
           geometry={nodes.Object_105.geometry}
           material={materials.jwuTsnFxKtBUxpK}
         />
@@ -220,14 +262,6 @@ export default function Macbook(props) {
           material={materials.uInNDOueKeBTGQB}
         />
         <mesh
-          geometry={nodes.Object_113.geometry}
-          material={materials.gOXiFODBFKnUyyU}
-        />
-        <mesh
-          geometry={nodes.Object_115.geometry}
-          material={materials.eBwkWuOBScacrgP}
-        />
-        <mesh
           geometry={nodes.Object_117.geometry}
           material={materials.jwuTsnFxKtBUxpK}
         />
@@ -240,46 +274,83 @@ export default function Macbook(props) {
           material={materials.nDsMUuDKliqGFdU}
         />
         <mesh
-          geometry={nodes.Object_123.geometry}
-          material={materials.sfCQkHOWyrsLmor}
-        />
-        <mesh
-          geometry={nodes.Object_125.geometry}
-          material={materials.CdgEAaPUlrQWQuD}
-        />
-        <mesh
           geometry={nodes.Object_127.geometry}
           material={materials.ZCDwChwkbBfITSW}
         />
-        <mesh
-          geometry={nodes.Object_129.geometry}
-          material={materials.XCYkeTCxqFmKTKe}
-        />
-        <mesh
-          geometry={nodes.Object_131.geometry}
-          material={materials.MycfwscjQZRVSoj}
-        />
       </group>
-      {/* End of the rotated model group. 
-        HTML is moved outside for intuitive XYZ positioning.
-      */}
 
-      <Html
-        transform
-        occlude
-        wrapperClass="htmlScreen"
-        distanceFactor={12} // Increased to scale up the UI
-        zIndexRange={[100, 0]}
-        position={[0, 11.7, -16.9]} // [X: center, Y: height, Z: depth]
-        rotation={[-0.36, 0, 0]} // Tilted slightly back to match the lid angle
-        scale={[1.13, 1.16, 1]}
-      >
-        {isBooting ? (
-          <BootScreen onComplete={() => setIsBooting(false)} />
-        ) : (
-          <PortfolioUI />
-        )}
-      </Html>
+      {/* ========================================================= */}
+      {/* PART 2: ANIMATED SCREEN GROUP & SYMMETRIC PIVOT           */}
+      {/* ========================================================= */}
+
+      {/* Step 1: Shift the entire screen group to the hinge pivot point */}
+      <group position={[0, pivotY, pivotZ]}>
+        {/* Step 2: Apply the rotation animation on this axis. 
+            Initialize at closedAngle so it starts fully closed without glitching. */}
+        <group ref={lidRef} rotation={[closedAngle, 0, 0]}>
+          {/* Step 3: Shift the meshes back to their original local coordinates */}
+          <group position={[0, -pivotY, -pivotZ]}>
+            {/* The 7 Screen Meshes (preserving their original model orientation) */}
+            <group rotation={[Math.PI / 2, 0, 0]}>
+              <mesh
+                geometry={nodes.Object_103.geometry}
+                material={materials.RyKTMHTpkkwQkvB}
+              />{" "}
+              {/* Lid Base */}
+              <mesh
+                geometry={nodes.Object_113.geometry}
+                material={materials.gOXiFODBFKnUyyU}
+              />{" "}
+              {/* Lens */}
+              <mesh
+                geometry={nodes.Object_115.geometry}
+                material={materials.eBwkWuOBScacrgP}
+              />{" "}
+              {/* Camera */}
+              <mesh
+                geometry={nodes.Object_123.geometry}
+                material={materials.sfCQkHOWyrsLmor}
+              />{" "}
+              {/* Screen Glass */}
+              <mesh
+                geometry={nodes.Object_125.geometry}
+                material={materials.CdgEAaPUlrQWQuD}
+              />{" "}
+              {/* Logo */}
+              <mesh
+                geometry={nodes.Object_129.geometry}
+                material={materials.XCYkeTCxqFmKTKe}
+              />{" "}
+              {/* Notch */}
+              <mesh
+                geometry={nodes.Object_131.geometry}
+                material={materials.MycfwscjQZRVSoj}
+              />{" "}
+              {/* Bezel */}
+            </group>
+
+            {/* CUSTOM HTML OVERLAY INTERFACE */}
+            <Html
+              transform
+              occlude
+              wrapperClass="htmlScreen"
+              distanceFactor={12}
+              zIndexRange={[100, 0]}
+              position={[0, 11.7, -16.9]}
+              rotation={[-0.36, 0, 0]}
+              scale={[1.13, 1.16, 1]}
+            >
+              {appState === "closed" || appState === "opening" ? (
+                <div className="w-[1024px] h-[640px] bg-black"></div>
+              ) : appState === "booting" ? (
+                <BootScreen onComplete={() => setAppState("desktop")} />
+              ) : (
+                <PortfolioUI />
+              )}
+            </Html>
+          </group>
+        </group>
+      </group>
     </group>
   );
 }
