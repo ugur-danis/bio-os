@@ -1,10 +1,12 @@
-import React from "react";
+import { useState } from "react";
 import { useGLTF, Html } from "@react-three/drei";
 import PortfolioUI from "./PortfolioUI";
+import BootScreen from "./BootScreen";
 
 export default function Macbook(props) {
   // Load the downloaded GLB model
   const { nodes, materials } = useGLTF("/macbook_pro.glb");
+  const [isBooting, setIsBooting] = useState(true);
 
   return (
     <group {...props} dispose={null}>
@@ -271,7 +273,11 @@ export default function Macbook(props) {
         rotation={[-0.36, 0, 0]} // Tilted slightly back to match the lid angle
         scale={[1.13, 1.16, 1]}
       >
-        <PortfolioUI />
+        {isBooting ? (
+          <BootScreen onComplete={() => setIsBooting(false)} />
+        ) : (
+          <PortfolioUI />
+        )}
       </Html>
     </group>
   );

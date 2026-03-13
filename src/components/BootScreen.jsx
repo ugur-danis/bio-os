@@ -13,30 +13,35 @@ const bootSequence = [
 ];
 
 const BootScreen = ({ onComplete }) => {
-  const [visibleLines, setVisibleLines] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(0);
 
   useEffect(() => {
-    let currentIndex = 0;
-
     const interval = setInterval(() => {
-      if (currentIndex < bootSequence.length) {
-        setVisibleLines((prev) => [...prev, bootSequence[currentIndex]]);
-        currentIndex++;
-      } else {
-        clearInterval(interval);
-        setTimeout(() => {
-          onComplete();
-        }, 1200);
-      }
+      setVisibleCount((prevCount) => {
+        if (prevCount < bootSequence.length) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      });
     }, 250);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, []);
+
+  useEffect(() => {
+    if (visibleCount >= bootSequence.length) {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [visibleCount, onComplete]);
 
   return (
-    // FULL SCREEN YERİNE LAPTOP EKRANI BOYUTLARI (1024x640)
-    <div className="w-5xl h-160 bg-black text-gray-300 font-mono text-xl p-10 flex flex-col justify-start items-start overflow-hidden rounded-md select-none cursor-default shadow-[0_0_10px_rgba(0,0,0,0.8)]">
-      {visibleLines.map((line, index) => (
+    <div className="w-[1024px] h-[640px] bg-black text-gray-300 font-mono text-xl p-10 flex flex-col justify-start items-start overflow-hidden rounded-md select-none cursor-default shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+      {bootSequence.slice(0, visibleCount).map((line, index) => (
         <div key={index} className="mb-2 flex">
           {line.type === "ok" && (
             <span className="mr-3">
@@ -59,7 +64,9 @@ const BootScreen = ({ onComplete }) => {
           )}
         </div>
       ))}
-      {visibleLines.length < bootSequence.length && (
+
+      {/* Yanıp sönen terminal imleci */}
+      {visibleCount < bootSequence.length && (
         <div className="mt-1 ml-1 animate-pulse bg-gray-300 w-3 h-5"></div>
       )}
     </div>
