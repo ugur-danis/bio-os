@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 
+const bootSequence = [
+  { text: "Booting BioOS kernel...", type: "system" },
+  { text: "Starting System Initialization...", type: "system" },
+  { text: "Mounted Local File Systems.", type: "ok" },
+  { text: "Started Network Connection.", type: "ok" },
+  { text: "Initialized Full Stack Modules.", type: "ok" },
+  { text: "Started 3D Canvas Context.", type: "ok" },
+  { text: "Reached target Graphical Interface.", type: "ok" },
+  { text: "Welcome to BioOS v1.0.0", type: "system" },
+  { text: "root@bio-os:~# startx", type: "command" },
+];
+
 const BootScreen = ({ onComplete }) => {
   const [visibleLines, setVisibleLines] = useState([]);
-
-  const bootSequence = [
-    "Initializing BioOS kernel...",
-    "Mounting file systems... OK",
-    "Loading frontend modules... [React, Three.js, Tailwind]",
-    "Establishing secure connections...",
-    "Compiling assets...",
-    "Welcome to the BioOS Environment.",
-    "Starting desktop session...",
-  ];
 
   useEffect(() => {
     let currentIndex = 0;
@@ -26,21 +28,39 @@ const BootScreen = ({ onComplete }) => {
           onComplete();
         }, 1200);
       }
-    }, 400);
+    }, 250);
 
     return () => clearInterval(interval);
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-black text-green-500 font-mono text-sm sm:text-base p-6 z-50 flex flex-col justify-start items-start overflow-hidden">
+    // FULL SCREEN YERİNE LAPTOP EKRANI BOYUTLARI (1024x640)
+    <div className="w-5xl h-160 bg-black text-gray-300 font-mono text-xl p-10 flex flex-col justify-start items-start overflow-hidden rounded-md select-none cursor-default shadow-[0_0_10px_rgba(0,0,0,0.8)]">
       {visibleLines.map((line, index) => (
-        <div key={index} className="mb-1">
-          <span className="mr-2">&gt;</span>
-          {line}
+        <div key={index} className="mb-2 flex">
+          {line.type === "ok" && (
+            <span className="mr-3">
+              [<span className="text-green-500 font-bold"> OK </span>]
+            </span>
+          )}
+          {line.type === "command" ? (
+            <span>
+              <span className="text-green-400 font-bold">root@bio-os:~#</span>{" "}
+              <span className="text-white">{line.text.split(" ")[1]}</span>
+            </span>
+          ) : (
+            <span
+              className={
+                line.type === "system" ? "text-gray-400" : "text-gray-200"
+              }
+            >
+              {line.text}
+            </span>
+          )}
         </div>
       ))}
       {visibleLines.length < bootSequence.length && (
-        <div className="mt-1 animate-pulse">_</div>
+        <div className="mt-1 ml-1 animate-pulse bg-gray-300 w-3 h-5"></div>
       )}
     </div>
   );
