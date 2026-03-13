@@ -1,5 +1,6 @@
 import React from "react";
 import { useGLTF, Html } from "@react-three/drei";
+import PortfolioUI from "./PortfolioUI";
 
 export default function Macbook(props) {
   // Load the downloaded GLB model
@@ -270,29 +271,7 @@ export default function Macbook(props) {
         rotation={[-0.36, 0, 0]} // Tilted slightly back to match the lid angle
         scale={[1.13, 1.16, 1]}
       >
-        <div className="w-[1024px] h-[640px] bg-slate-100 rounded-md overflow-hidden flex flex-col pointer-events-auto shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-          <div className="h-10 bg-slate-300 flex items-center px-4 gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            <div className="flex-1 ml-4 bg-white rounded text-xs px-2 py-1 text-slate-500 text-center font-mono">
-              bio-os.local/home
-            </div>
-          </div>
-
-          <div className="flex-1 p-8 bg-white text-slate-800 flex flex-col items-center justify-center">
-            <h1 className="text-4xl font-bold mb-4">Hoş Geldiniz!</h1>
-            <p className="text-xl text-slate-600 mb-8">
-              Full Stack Developer CV ve Portfolyosu
-            </p>
-            <button
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-              onClick={() => alert("CV İndiriliyor... (Yakında)")}
-            >
-              Projeleri İncele
-            </button>
-          </div>
-        </div>
+        <PortfolioUI />
       </Html>
     </group>
   );
