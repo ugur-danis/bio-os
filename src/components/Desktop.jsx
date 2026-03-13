@@ -1,23 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-
-// Temporary 3D object to test the canvas rendering and interactions
-const PlaceholderBox = () => {
-  const meshRef = useRef();
-
-  useFrame((state, delta) => {
-    meshRef.current.rotation.x += delta * 0.5;
-    meshRef.current.rotation.y += delta * 0.5;
-  });
-
-  return (
-    <mesh ref={meshRef}>
-      <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial color="#3b82f6" />
-    </mesh>
-  );
-};
+import { useState, useEffect, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Environment, ContactShadows } from "@react-three/drei";
+import Macbook from "../components/Macbook_pro"; // Import the new model
 
 const Desktop = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -62,24 +46,43 @@ const Desktop = () => {
         )}
       </button>
 
-      {/* 3D Environment rendering space */}
+      {/* 3D Environment */}
       <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 7], fov: 50 }}>
+        <Canvas camera={{ position: [-7.4, 7.5, 18], fov: 45 }}>
+          {/* Preset environment lighting for realistic metal reflections */}
+          <Environment preset="city" />
           <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1.5} />
-          <PlaceholderBox />
-          {/* Enables mouse drag interaction */}
-          <OrbitControls enableZoom={false} />
-        </Canvas>
-      </div>
 
-      <div className="z-10 absolute bottom-12 flex flex-col items-center pointer-events-none">
-        <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-600 dark:from-blue-400 dark:to-emerald-400">
-          BioOS
-        </h1>
-        <p className="text-gray-600 dark:text-slate-400 font-mono text-sm md:text-base">
-          3D Canvas Initialized. Try dragging to rotate.
-        </p>
+          <Suspense fallback={null}>
+            {/* The Macbook model */}
+            <Macbook
+              position={[0, -4, 0]}
+              rotation={[0, -Math.PI / 8, 0]}
+              scale={0.5}
+            />
+
+            {/* Ground shadow for realism */}
+            <ContactShadows
+              position={[0, -1.05, 0]}
+              opacity={0.6}
+              scale={5}
+              blur={2.5}
+              far={2}
+            />
+          </Suspense>
+
+          <OrbitControls
+            enableZoom={true}
+            onChange={(e) => {
+              // Kameranın o anki x, y ve z koordinatlarını alıyoruz
+              const { x, y, z } = e.target.object.position;
+              // Okunabilirliği artırmak için virgülden sonra 2 basamak gösteriyoruz
+              console.log(
+                `[Camera Position]: [${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}]`,
+              );
+            }}
+          />
+        </Canvas>
       </div>
     </div>
   );

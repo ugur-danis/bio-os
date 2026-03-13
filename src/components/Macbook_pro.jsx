@@ -1,0 +1,301 @@
+import React from "react";
+import { useGLTF, Html } from "@react-three/drei";
+
+export default function Macbook(props) {
+  // Load the downloaded GLB model
+  const { nodes, materials } = useGLTF("/macbook_pro.glb");
+
+  return (
+    <group {...props} dispose={null}>
+      {/* This group wraps the entire laptop. 
+        Adjust rotation if the laptop is facing the wrong way. 
+      */}
+      <group rotation={[Math.PI / 2, 0, 0]}>
+        {/* All the individual parts of the Macbook M3 */}
+        <mesh
+          geometry={nodes.Object_10.geometry}
+          material={materials.AibnXCKcAbewWhH}
+        />
+        <mesh
+          geometry={nodes.Object_12.geometry}
+          material={materials.WeLyzRwUVIhQGgM}
+        />
+        <mesh
+          geometry={nodes.Object_14.geometry}
+          material={materials.UhoCLqHkvkDmxOA}
+        />
+        <mesh
+          geometry={nodes.Object_16.geometry}
+          material={materials.zhGRTuGrQoJflBD}
+        />
+        <mesh
+          geometry={nodes.Object_18.geometry}
+          material={materials.zCLdUynNQOzVMqx}
+        />
+        <mesh
+          geometry={nodes.Object_20.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_22.geometry}
+          material={materials.lmWQsEjxpsebDlK}
+        />
+        <mesh
+          geometry={nodes.Object_24.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_26.geometry}
+          material={materials.MycfwscjQZRVSoj}
+        />
+        <mesh
+          geometry={nodes.Object_28.geometry}
+          material={materials.bsmYIMHYRqMuLqz}
+        />
+        <mesh
+          geometry={nodes.Object_30.geometry}
+          material={materials.LtEafgAVRolQqRw}
+        />
+        <mesh
+          geometry={nodes.Object_32.geometry}
+          material={materials.iyDJFXmHelnMTbD}
+        />
+        <mesh
+          geometry={nodes.Object_34.geometry}
+          material={materials.eJObPwhgFzvfaoZ}
+        />
+        <mesh
+          geometry={nodes.Object_36.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_38.geometry}
+          material={materials.nDsMUuDKliqGFdU}
+        />
+        <mesh
+          geometry={nodes.Object_40.geometry}
+          material={materials.LtEafgAVRolQqRw}
+        />
+        <mesh
+          geometry={nodes.Object_42.geometry}
+          material={materials.CRQixVLpahJzhJc}
+        />
+        <mesh
+          geometry={nodes.Object_44.geometry}
+          material={materials.IcpudUyxprDYhfw}
+        />
+        <mesh
+          geometry={nodes.Object_46.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_48.geometry}
+          material={materials.YYwBgwvcyZVOOAA}
+        />
+        <mesh
+          geometry={nodes.Object_50.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_52.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_54.geometry}
+          material={materials.SLGkCohDDelqXBu}
+        />
+        <mesh
+          geometry={nodes.Object_56.geometry}
+          material={materials.WDumMKBWVQxmraD}
+        />
+        <mesh
+          geometry={nodes.Object_58.geometry}
+          material={materials.WnHKXHhScfUbJQi}
+        />
+        <mesh
+          geometry={nodes.Object_60.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_62.geometry}
+          material={materials.ZNhRrZtaKWQYAab}
+        />
+        <mesh
+          geometry={nodes.Object_64.geometry}
+          material={materials.IcpudUyxprDYhfw}
+        />
+        <mesh
+          geometry={nodes.Object_66.geometry}
+          material={materials.fNHiBfcxHUJCahl}
+        />
+        <mesh
+          geometry={nodes.Object_68.geometry}
+          material={materials.bsEIHfblEXNcUMs}
+        />
+        <mesh
+          geometry={nodes.Object_70.geometry}
+          material={materials.CRQixVLpahJzhJc}
+        />
+        <mesh
+          geometry={nodes.Object_72.geometry}
+          material={materials.SABLxXNNESCdgUy}
+        />
+        <mesh
+          geometry={nodes.Object_74.geometry}
+          material={materials.LpqXZqhaGCeSzdu}
+        />
+        <mesh
+          geometry={nodes.Object_76.geometry}
+          material={materials.sIfSZcqgDlKMJPf}
+        />
+        <mesh
+          geometry={nodes.Object_78.geometry}
+          material={materials.bsmYIMHYRqMuLqz}
+        />
+        <mesh
+          geometry={nodes.Object_80.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_82.geometry}
+          material={materials.gMtYExgrEUqPfln}
+        />
+        <mesh
+          geometry={nodes.Object_84.geometry}
+          material={materials.WnHKXHhScfUbJQi}
+        />
+        <mesh
+          geometry={nodes.Object_86.geometry}
+          material={materials.nDsMUuDKliqGFdU}
+        />
+        <mesh
+          geometry={nodes.Object_88.geometry}
+          material={materials.bsEIHfblEXNcUMs}
+        />
+        <mesh
+          geometry={nodes.Object_90.geometry}
+          material={materials.uInNDOueKeBTGQB}
+        />
+        <mesh
+          geometry={nodes.Object_92.geometry}
+          material={materials.hmEmmncwVomyUTC}
+        />
+        <mesh
+          geometry={nodes.Object_94.geometry}
+          material={materials.WeLyzRwUVIhQGgM}
+        />
+        <mesh
+          geometry={nodes.Object_96.geometry}
+          material={materials.KclpPzxoRwZAoer}
+        />
+        <mesh
+          geometry={nodes.Object_99.geometry}
+          material={materials.wjAYtisbflXilXi}
+        />
+        <mesh
+          geometry={nodes.Object_101.geometry}
+          material={materials.zobIbiekuagXEVU}
+        />
+        <mesh
+          geometry={nodes.Object_103.geometry}
+          material={materials.RyKTMHTpkkwQkvB}
+        />
+        <mesh
+          geometry={nodes.Object_105.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_107.geometry}
+          material={materials.JvMFZolVCdpPqjj}
+        />
+        <mesh
+          geometry={nodes.Object_109.geometry}
+          material={materials.UBYmHfGRfHbOXyc}
+        />
+        <mesh
+          geometry={nodes.Object_111.geometry}
+          material={materials.uInNDOueKeBTGQB}
+        />
+        <mesh
+          geometry={nodes.Object_113.geometry}
+          material={materials.gOXiFODBFKnUyyU}
+        />
+        <mesh
+          geometry={nodes.Object_115.geometry}
+          material={materials.eBwkWuOBScacrgP}
+        />
+        <mesh
+          geometry={nodes.Object_117.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_119.geometry}
+          material={materials.jwuTsnFxKtBUxpK}
+        />
+        <mesh
+          geometry={nodes.Object_121.geometry}
+          material={materials.nDsMUuDKliqGFdU}
+        />
+        <mesh
+          geometry={nodes.Object_123.geometry}
+          material={materials.sfCQkHOWyrsLmor}
+        />
+        <mesh
+          geometry={nodes.Object_125.geometry}
+          material={materials.CdgEAaPUlrQWQuD}
+        />
+        <mesh
+          geometry={nodes.Object_127.geometry}
+          material={materials.ZCDwChwkbBfITSW}
+        />
+        <mesh
+          geometry={nodes.Object_129.geometry}
+          material={materials.XCYkeTCxqFmKTKe}
+        />
+        <mesh
+          geometry={nodes.Object_131.geometry}
+          material={materials.MycfwscjQZRVSoj}
+        />
+      </group>
+      {/* End of the rotated model group. 
+        HTML is moved outside for intuitive XYZ positioning.
+      */}
+
+      <Html
+        transform
+        wrapperClass="htmlScreen"
+        distanceFactor={12} // Increased to scale up the UI
+        zIndexRange={[100, 0]}
+        position={[0, 11.7, -16.9]} // [X: center, Y: height, Z: depth]
+        rotation={[-0.36, 0, 0]} // Tilted slightly back to match the lid angle
+        scale={[1.13, 1.16, 1]}
+      >
+        <div className="w-[1024px] h-[640px] bg-slate-100 rounded-md overflow-hidden flex flex-col pointer-events-auto shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+          <div className="h-10 bg-slate-300 flex items-center px-4 gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <div className="flex-1 ml-4 bg-white rounded text-xs px-2 py-1 text-slate-500 text-center font-mono">
+              bio-os.local/home
+            </div>
+          </div>
+
+          <div className="flex-1 p-8 bg-white text-slate-800 flex flex-col items-center justify-center">
+            <h1 className="text-4xl font-bold mb-4">Hoş Geldiniz!</h1>
+            <p className="text-xl text-slate-600 mb-8">
+              Full Stack Developer CV ve Portfolyosu
+            </p>
+            <button
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              onClick={() => alert("CV İndiriliyor... (Yakında)")}
+            >
+              Projeleri İncele
+            </button>
+          </div>
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+useGLTF.preload("/macbook_pro.glb");
