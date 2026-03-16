@@ -55,7 +55,7 @@ const PortfolioUI = () => {
 
   return (
     // Main OS Desktop Container
-    <div className="w-5xl h-160 bg-slate-800 relative overflow-hidden font-sans select-none text-white shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+    <div className="w-5xl h-160 bg-slate-800 relative overflow-hidden font-sans select-none text-white shadow-[0_0_10px_rgba(0,0,0,0.5)] bg-[url('/wallpaper.jpg')] bg-cover bg-center bg-no-repeat">
       {/* 🌟 DESKTOP ICONS (Grid Layout) */}
       <div className="absolute inset-0 p-6 flex flex-col flex-wrap gap-6 content-start z-10">
         {apps.map((app) => (
